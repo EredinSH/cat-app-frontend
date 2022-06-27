@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.7.1'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'com.vaadin' version '23.1.1'
     id 'java'
 }
 
@@ -10,11 +11,32 @@ sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
+    maven { url = "https://maven.vaadin.com/vaadin-addons" }
+}
+
+vaadin {
+    optimizeBundle = false
+}
+
+ext {
+set('vaadinVersion', "23.1.0")
 }
 
 dependencies {
+    implementation 'com.vaadin:vaadin-spring-boot-starter'
+    implementation group: 'com.vaadin', name: 'vaadin', version: '23.1.1'
+    implementation group: 'com.vaadin', name: 'vaadin-server', version: '8.16.0'
+    compileOnly group: 'com.vaadin', name: 'vaadin-client', version: '8.16.0'
+    implementation group: 'com.vaadin', name: 'vaadin-core', version: '23.1.1'
+    implementation group: 'com.vaadin', name: 'vaadin-themes', version: '8.16.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+imports {
+mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+}
 }
 
 tasks.named('test') {
